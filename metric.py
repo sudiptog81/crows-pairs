@@ -173,23 +173,9 @@ def evaluate(args):
     # load data into panda DataFrame
     df_data = read_data(args.input_file)
 
-    # supported masked language models
-    if args.lm_model == "bert":
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-        model = BertForMaskedLM.from_pretrained('bert-base-uncased')
-        uncased = True
-    elif args.lm_model == "roberta":
-        tokenizer = RobertaTokenizer.from_pretrained('roberta-large')
-        model = RobertaForMaskedLM.from_pretrained('roberta-large')
-        uncased = False
-    elif args.lm_model == "albert":
-        tokenizer = AlbertTokenizer.from_pretrained('albert-xxlarge-v2')
-        model = AlbertForMaskedLM.from_pretrained('albert-xxlarge-v2')
-        uncased = True
-    else:
-        tokenizer = AutoTokenizer.from_pretrained(args.lm_model)
-        model = AutoModelForCausalLM.from_pretrained(args.lm_model)
-        uncased = True
+    tokenizer = AutoTokenizer.from_pretrained(args.lm_model)
+    model = AutoModelForCausalLM.from_pretrained(args.lm_model)
+    uncased = True
 
     model.eval()
     if torch.cuda.is_available():
